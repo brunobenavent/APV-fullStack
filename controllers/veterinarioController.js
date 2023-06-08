@@ -66,7 +66,6 @@ const autenticar = async( req, res ) => {
         const error = new Error('Hubo un error al comprobar tu contraseña, intentelo de nuevo más tarde')
         return res.status(403).json({msg: error.message})
     }
-    console.log(veterinario)
     res.json({
         msg: "usuario autenticado correctamente",
         token: generarJWT(veterinario._id)

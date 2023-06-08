@@ -13,9 +13,10 @@ const pacienteSchema = Schema({
         type: String,
         required: true
     },
-    nombre: {
+    fecha: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
     },
     sintomas: {
         type: String,
@@ -23,9 +24,8 @@ const pacienteSchema = Schema({
     },
     veterinario: {
         type: Schema.Types.ObjectId,
-        ref: 'Veterinario',
-        required: true
-    },
+        ref: 'Veterinario'
+    }
 }, {
     timestamps: true
 })
