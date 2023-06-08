@@ -2,6 +2,8 @@ import express from 'express'
 import 'dotenv/config'
 import conectarDB from './config/db.js'
 import veterinarioRoutes from './routes/veterinarioRoutes.js'
+import pacienteRoutes from './routes/pacienteRoutes.js'
+
 const app = express()
  
 //conectar con la base de datos
@@ -14,6 +16,7 @@ await conectarDB()
 app.use(express.json())
 // Routing
 app.use('/api/veterinarios', veterinarioRoutes )
+app.use('/api/pacientes', pacienteRoutes )
 
 
 const PORT = process.env.PORT || 4000
