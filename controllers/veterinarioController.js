@@ -2,6 +2,7 @@ import generarId from "../helpers/generarId.js"
 import generarJWT from "../helpers/generarJWT.js"
 import emailRegistro from "../helpers/emailRegistro.js"
 import Veterinario from "../models/Veterinario.js"
+import emailOlvidePassword from "../helpers/emailOlvidePassword.js"
 
 const registrar = async(req, res) =>{
     const {email, nombre} = req.body
@@ -85,12 +86,18 @@ const olvidePassword = async( req, res ) => {
     //comprobamos que el usuario existe
     const veterinario = await Veterinario.findOne({email})
     if(!veterinario){
-        const error = new Error('Email no encontrado')
+        const error = new Error('Usuario no encontrado')
         return res.status(403).json({msg: error.message})
     }
     try {
         veterinario.token = generarId()
-        const veterinarioGuardado = await veterinario.save()
+        await veterinario.save()
+        //Enviar email con las instrucciones para reestablecer el password
+        emailOlvidePassword({
+            nombre: veterinario.nombre,
+            email,
+            token: veterinario.token })
+
         res.json({
             msg: 'Hemos enviado un email con las instrucciones para resetear el password'
         })
