@@ -30,10 +30,8 @@ const registrar = async(req, res) =>{
     
 }
 const perfil = (req, res) =>{
-    const {veterinario} =req
-    res.json({
-        perfil: veterinario
-    })
+    const {veterinario} = req
+    res.json(veterinario)
 }
 
 const confirmar = async( req, res ) => {
@@ -75,11 +73,10 @@ const autenticar = async( req, res ) => {
     if(!await veterinario.comprobarPassword(password)){
         const error = new Error('Hubo un error al comprobar tu contraseña, intentelo de nuevo más tarde')
         return res.status(403).json({msg: error.message})
+       
     }
-    res.json({
-        msg: "usuario autenticado correctamente",
-        token: generarJWT(veterinario._id)
-    })  
+    veterinario.token = generarJWT(veterinario._id)
+    res.json(veterinario)  
 }
 const olvidePassword = async( req, res ) => {
     const {email} = req.body;

@@ -12,7 +12,7 @@ const agregarPaciente = async( req, res ) => {
             msg: "Su cita ha sido registrada correctamente"
         })
     } catch (error) {
-        error = new Error('Hubo un error')
+        error = new Error('Hubo un error al registra el paciente')
         return res.status(400).json({msg: error.message})
     }
 }

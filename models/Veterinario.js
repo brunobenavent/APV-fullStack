@@ -48,7 +48,7 @@ VeterinarioSchema.methods.comprobarPassword = async function (password){
 }
 
 VeterinarioSchema.methods.toJSON = function(){
-    const {__v, password, _id, token, ...veterinario} = this.toObject();
+    const {__v, password, _id, ...veterinario} = this.toObject();
     veterinario.uid = _id
 
     return veterinario
