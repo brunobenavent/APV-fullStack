@@ -7,10 +7,7 @@ const agregarPaciente = async( req, res ) => {
     paciente.veterinario = req.veterinario._id
     try {
         const pacienteGuardado = await paciente.save()
-        res.json({
-            pacienteGuardado,
-            msg: "Su cita ha sido registrada correctamente"
-        })
+        res.json(pacienteGuardado)
     } catch (error) {
         error = new Error('Hubo un error al registra el paciente')
         return res.status(400).json({msg: error.message})
