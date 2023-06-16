@@ -34,6 +34,31 @@ const perfil = (req, res) =>{
     res.json(veterinario)
 }
 
+const actualizarPerfil = async(req, res) =>{
+    const {id} = req.params
+
+    const {nombre, email, telefono, web} = req.body
+    const veterinario = await Veterinario.findById(id)
+    if(!veterinario){
+        const error = new Error('Hubo un error')
+        return res.status(400).json({msg: error.message})
+    }
+    try {
+
+        veterinario.nombre = nombre
+        veterinario.email = email
+        veterinario.telefono = telefono
+        veterinario.web = web
+
+        const veterinarioActualizado = await veterinario.save()
+        res.json(veterinarioActualizado)
+    } catch (error) {
+        console.log(error)
+    }
+
+
+}
+
 const confirmar = async( req, res ) => {
     const {token} = req.params
     try {
@@ -147,6 +172,7 @@ const nuevoPassword = async( req, res ) => {
 export {
     registrar,
     perfil,
+    actualizarPerfil,
     confirmar,
     autenticar,
     olvidePassword,
