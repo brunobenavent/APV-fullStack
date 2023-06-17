@@ -43,6 +43,15 @@ const actualizarPerfil = async(req, res) =>{
         const error = new Error('Hubo un error')
         return res.status(400).json({msg: error.message})
     }
+    if(veterinario.email !== email){ // En esta linea quiere decir si lo estás intentando modificar
+        const existeEmail = await Veterinario.findOne({email})
+        if(existeEmail){
+            const error = new Error ('Este email ya está en uso')
+            return res.status(400).json({
+                msg: error.message
+            })
+        }
+    }
     try {
 
         veterinario.nombre = nombre
