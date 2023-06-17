@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { actualizarPerfil, autenticar, comprobarToken, confirmar, nuevoPassword, olvidePassword, perfil, registrar } from "../controllers/veterinarioController.js";
+import { actualizarPassword, actualizarPerfil, autenticar, comprobarToken, confirmar, nuevoPassword, olvidePassword, perfil, registrar } from "../controllers/veterinarioController.js";
 import checkAuth from "../middleware/authMiddleware.js";
-
 const router = Router()
 
 // Rutas públicas
@@ -16,6 +15,7 @@ router.post('/olvide-password/:token', nuevoPassword)
 // Rutas protegidas
 router.get('/perfil', checkAuth, perfil )
 router.put('/perfil/:id', checkAuth, actualizarPerfil )
+router.put('/actualizar-password', checkAuth, actualizarPassword )
 
 
 export default router

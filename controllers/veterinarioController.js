@@ -160,22 +160,45 @@ const nuevoPassword = async( req, res ) => {
         const error = new Error('El token no es válido')
         return res.status(401).json({msg: error.message})
     }
-    try {
+        try {
 
-        veterinario.password = password
-        veterinario.token = null
-        veterinario.confirmado = true
-        const veterinarioGuardado = await veterinario.save()
+            veterinario.password = password
+            veterinario.token = null
+            veterinario.confirmado = true
+            const veterinarioGuardado = await veterinario.save()
 
-        res.json({
-            msg: 'El password ha sido modificado correctamente'
-        })
-        
-    } catch (error) {
-        console.log(error.message)
-    }
+            res.json({
+                msg: 'El password ha sido modificado correctamente'
+            })
+            
+        } catch (error) {
+            console.log(error.message)
+        }
 
 }
+const actualizarPassword = async (req, res) => {
+    // Leemos los datos
+    const {id} = req.veterinario
+    const {pwd_actual, pwd_nuevo} = req.body
+
+    //Comprobar que el veterinario existe
+    const veterinario = await Veterinario.findById(id)
+    if(!veterinario){
+        const error = new Error('El token no es válido')
+        return res.status(401).json({msg: error.message})
+    }
+    // Comprobar su password
+    if( await veterinario.comprobarPassword(pwd_actual)){
+        // Almacenar nuevo Password
+        veterinario.password = pwd_nuevo
+        await veterinario.save()
+        res.json({msg: "Password modificado correctamente"})
+    }else{
+        const error = new Error('El password introducido es incorrecto')
+        return res.status(401).json({msg: error.message})
+    }
+}
+
 
 
 export {
@@ -186,5 +209,6 @@ export {
     autenticar,
     olvidePassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    actualizarPassword
 }
