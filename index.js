@@ -12,20 +12,22 @@ await conectarDB()
 const dominiosPermitidos = [process.env.FRONTEND_URL]
 
 // Configuración de CORS
-const corsOptions = {
-    origin: function (origin, callback){
-        if(dominiosPermitidos.indexOf(origin) !== -1 ){
-            callback(null, true)
-        }else{
-            callback(new Error ('No permitido por CORS'))
-        }
-    }
-}
+// const corsOptions = {
+//     origin: function (origin, callback){
+//         if(dominiosPermitidos.indexOf(origin) !== -1 ){
+//             callback(null, true)
+//         }else{
+//             callback(new Error ('No permitido por CORS'))
+//         }
+//     }
+// }
 // Middlewares
 // Habilitar el parseo de las respuestas de tipo JSON
 app.use(express.json())
-app.use(cors(corsOptions))
-
+// app.use(cors(corsOptions))
+app.use(cors({
+    origin: '*'
+}));
 
 // Routing
 app.use('/api/veterinarios', veterinarioRoutes )
